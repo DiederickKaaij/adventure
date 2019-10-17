@@ -13,11 +13,11 @@ class GameTest(unittest.TestCase):
         self.assertEqual(str(game), "Simple game")
         self.assertEqual(len(game.locations), 1)
         self.assertIn("woonkamer", game.locations)
-        self.assertEqual(str(game.location), "woonkamer")
+        self.assertEqual(str(game.get_location()), "woonkamer")
 
     def test_load_test(self):
         game = Game.load("data/test_game.json")
         self.assertEqual(str(game), "Test game")
         self.assertEqual(len(game.locations), 3)
         self.assertIn("keuken", game.locations)
-        self.assertEqual(str(game.location), "keuken")
+        self.assertEqual(str(game.get_location()), "keuken")

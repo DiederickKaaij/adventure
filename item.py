@@ -8,3 +8,6 @@ class Item:
 
     def __str__(self):
         return self.name
+
+    def describe(self):
+        return self.description

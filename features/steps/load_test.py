@@ -7,7 +7,7 @@ def test_loading(context):
 
 @when(u'we check our location')
 def test_location(context):
-    context.location = context.game.location
+    context.location = context.game.player.location
 
 @then(u'it should be the keuken')
 def test_keuken(context):

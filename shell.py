@@ -28,7 +28,7 @@ class Shell:
                 try:
                     print(self.game.describe(cmd[1]))
                 except IndexError:
-                    print(self.game.describe(str(self.game.location)))
+                    print(self.game.describe(self.game.get_location()))
             else:
                 print('Het commando "%s" wordt niet ondersteund' % cmd[0])
         except IndexError:
@@ -37,10 +37,10 @@ class Shell:
             print(e)
 
     def run(self):
-        print('Running "%s"' % self)
+        print('Running "%s"' % self.game)
 
         while not self.game.is_done():
-            print("\nJe bent in de %s." % self.game.location)
+            print("\nJe bent in de %s." % self.game.get_location())
             try:
                 cmd = input()
                 self.parse(cmd)

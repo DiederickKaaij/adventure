@@ -11,4 +11,4 @@ def test_commando(context):
 
 @then(u'the new location should be hal')
 def test_new_location(context):
-    assert str(context.game.location) == "hal"
+    assert str(context.game.player.location) == "hal"

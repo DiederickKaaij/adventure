@@ -14,13 +14,14 @@ class Location:
         return self.name
 
     def is_accessible(self, destination):
-        return destination in self.exits
+        return str(destination) in self.exits
 
-    def get(self, item):
-        if item in self.items:
-            return self.items.pop(item)
-        else:
-            raise KeyError("Er is geen %s in %s" % (item, self))
-
-    def drop(self, item):
-        self.items[item.name] = item
+    def describe(self):
+        description = self.description
+        if len(self.items) > 0:
+            items = [str(item) for item in self.items]
+            description += "\nEr liggen hier: %s" % ", ".join(items)
+        if len(self.exits) > 0:
+            exits = [str(out) for out in self.exits]
+            description += "\nJe kunt naar: %s" % ", ".join(exits)
+        return description

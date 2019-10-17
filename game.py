@@ -2,6 +2,7 @@ import json
 
 from location import Location
 from item import Item
+from player import Player
 
 
 class Game:
@@ -10,11 +11,13 @@ class Game:
         self.locations = {
             location["name"]: Location(**location) for location in (locations or [])
         }
-        self.items = {item["name"]: Item(**item) for item in (items or [])}
-
-        self.location = self.find_location(
+        
+        location = self.find_location(
             location, locations[0]["name"] if locations else None
         )
+        items = {item["name"]: Item(**item) for item in (items or [])}
+        self.player = Player("speler", location, items)
+
         self.target = self.find_location(
             target, locations[-1]["name"] if locations else None
         )
@@ -38,48 +41,21 @@ class Game:
         return None
 
     def is_done(self):
-        return self.location == self.target
+        return self.player.location == self.target
 
     def move(self, destination):
-        new_location = self.find_location(destination)
-        if new_location == self.location:
-            raise KeyError("Daar ben je al.")
-        elif new_location and self.location.is_accessible(destination):
-            self.location = new_location
-        else:
-            raise KeyError(
-                "%s is vanuit %s niet te bereiken" % (destination, self.location)
-            )
+        destination = self.find_location(destination)
+        self.player.move(destination)
 
     def get(self, item):
-        item = self.location.get(item)
-        if item:
-            self.items[item.name] = item
+        self.player.get(item)
 
     def drop(self, item):
-        if item in self.items:
-            item = self.items.pop(item)
-            self.location.drop(item)
-        else:
-            raise KeyError("Je hebt geen %s" % item)
+        self.player.drop(item)
+
+    def get_location(self):
+        return self.player.location
 
     def describe(self, key):
-        description = 'Een "%s" kan je hier niet zien.' % key
-        if key == self.location.name:
-            location = self.location
-            description = location.description
-            if len(location.items) > 0:
-                items = [str(item) for item in location.items]
-                description += "\nEr liggen hier: %s" % ", ".join(items)
-            if len(location.exits) > 0:
-                exits = [str(out) for out in location.exits]
-                description += "\nJe kunt naar: %s" % ", ".join(exits)
-        elif key in self.location.items:
-            description = self.location.items[key].description
-        elif key in self.items:
-            description = self.items[key].description
-        elif key == "spullen":
-            items = [str(item) for item in self.items]
-            description = ", ".join(items)
-
-        return description
+        key = str(key)
+        return self.player.describe(key) or 'Een "%s" kan je hier niet zien.' % key

@@ -11,7 +11,8 @@ What can this engine do:
 
 * it can load a game from a json file
 * inside a game the user can move between locations (if they are connected)
-* inside a game the user can pick up and drop objects
+* inside a game the user can pick up objects (if it is at the current location)
+* inside a game the user can drop objects (if it is in possession) in a location
 * inside a game the user can ask for descriptions
 
 The objective of the game is to get to a target location.

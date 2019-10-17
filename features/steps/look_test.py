@@ -12,4 +12,4 @@ def test_bekijk(context):
 
 @then(u'they should get a description of hal')
 def test_description(context):
-    assert context.description == "een ruimte die andere ruimtes met elkaar verbindt"
+    assert context.description == "een ruimte die andere ruimtes met elkaar vebindt"

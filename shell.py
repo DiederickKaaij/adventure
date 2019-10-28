@@ -25,17 +25,22 @@ class Shell:
             elif cmd[0] == "leg":
                 self.game.drop(cmd[1])
             elif cmd[0] == "bekijk":
-                print(self.game.describe(cmd[1]))
+                try:
+                    print(self.game.describe(cmd[1]))
+                except IndexError:
+                    print(self.game.describe(self.game.get_location()))
             else:
                 print('Het commando "%s" wordt niet ondersteund' % cmd[0])
+        except IndexError:
+            print("Ongeldig commando.")
         except KeyError as e:
             print(e)
 
     def run(self):
-        print('Running "%s"' % self)
+        print('Running "%s"' % self.game)
 
         while not self.game.is_done():
-            print("\nJe bent in de %s." % self.game.location)
+            print("\nJe bent in de %s." % self.game.get_location())
             try:
                 cmd = input()
                 self.parse(cmd)
